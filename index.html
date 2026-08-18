@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COSTOM ID | Custom Apparel & Sablon Premium</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#008cff; --bg-alt:#005688; --card:#d9ff0044;
+    --brand:#fbff00; --brand-dark:#ff00ea; --ink:#000000;
+    --text:#000000; --muted:#ffffff; --line:rgba(0, 0, 0, 0.164);
+  }
+  *{scroll-behavior:smooth;}
+  body{font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden;}
+  .disp{font-family:'Anton',sans-serif; letter-spacing:0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .text-brand{color:var(--brand);} .bg-brand{background:var(--brand);} .border-brand{border-color:var(--brand);}
+  .text-ink{color:var(--ink);} .bg-ink{background:var(--ink);}
+
+  ::-webkit-scrollbar{width:9px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--brand); border-radius:0;}
+
+  /* Loader */
+  #loader{position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; align-items:center; justify-content:center; transition:opacity .6s ease, visibility .6s ease;}
+  #loader h1{font-size:4.5rem;}
+  #loader.hide{opacity:0; visibility:hidden;}
+  .load-bar{width:280px; height:3px; background:var(--line); margin-top:14px; overflow:hidden;}
+  .load-bar span{display:block; height:100%; width:0%; background:var(--brand); animation:loadfill 2.5s ease forwards;}
+  @keyframes loadfill{to{width:100%;}}
+
+  /* Grain overlay */
+  .grain{position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  /* Marquee ticker */
+  .ticker-track{display:flex; width:max-content; animation:ticker 22s linear infinite;}
+  @keyframes ticker{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  .ticker-wrap:hover .ticker-track{animation-play-state:paused;}
+
+  /* Stitch / clothing-tag motif */
+  .stitched{border:1.5px dashed var(--line); position:relative;}
+  .tag-label{position:absolute; top:-11px; left:16px; background:var(--bg-alt); padding:0 8px; font-size:.62rem; letter-spacing:.18em; color:var(--muted); text-transform:uppercase;}
+
+  /* Nav */
+  nav{transition:.4s ease;}
+  .nav-scrolled{background:rgba(250, 248, 248, 0.88) !important; backdrop-filter:blur(12px); border-bottom:1px solid var(--line);}
+  .nav-link{position:relative; padding-bottom:4px; transition:.3s;}
+  .nav-link::after{content:''; position:absolute; left:0; bottom:0; width:0; height:2px; background:var(--brand); box-shadow:0 0 8px var(--brand); transition:.3s;}
+  .nav-link:hover{color:var(--brand);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.active::after{width:100%;}
+
+  .burger{display:flex; flex-direction:column; gap:5px; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--line); cursor:pointer; transition:.3s;}
+  .burger span{width:18px; height:2px; background:var(--brand); transition:.3s;}
+  .burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .burger.active span:nth-child(2){opacity:0;}
+  .burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  #mobile-menu{max-height:0; overflow:hidden; opacity:0; background:rgba(255, 255, 255, 0.97); backdrop-filter:blur(14px); transition:max-height .4s ease, opacity .3s ease; border-bottom:0 solid var(--line);}
+  #mobile-menu.open{max-height:420px; opacity:1; border-bottom:1px solid var(--line);}
+
+  /* Hero */
+  .hero-bg{background:
+    radial-gradient(circle at 15% 20%, rgba(201, 6, 227, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(255, 0, 0, 0.24), transparent 40%),
+    var(--bg);}
+  .hero-card{background:rgba(255, 253, 253, 0.349); backdrop-filter:blur(18px); border:1px solid rgba(255, 251, 254, 0.466); box-shadow:0 0 70px rgba(227,6,19,.10);}
+
+  /* Spinning badge */
+  .spin-badge{animation:spin 14s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* Cards */
+  .glass{background:var(--card); border:1px solid var(--line); transition:.35s ease;}
+  .glass:hover{border-color:var(--brand); box-shadow:0 0 30px rgba(250, 248, 248, 0.18); transform:translateY(-5px);}
+  .icon-wrap{width:52px; height:52px; display:flex; align-items:center; justify-content:center; background:rgba(227,6,19,.08); border:1px solid rgba(227,6,19,.3);}
+
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-size:.7rem; letter-spacing:.22em; font-weight:600; color:var(--brand); text-transform:uppercase; border:1px solid rgba(227,6,19,.35); padding:6px 16px;}
+  .eyebrow .dot{width:6px; height:6px; background:var(--brand); box-shadow:0 0 8px var(--brand); animation:pulse 1.6s infinite;}
+  @keyframes pulse{50%{opacity:.25;}}
+
+  /* Tabs */
+  .cat-btn{transition:.3s; border:1px solid var(--line);}
+  .cat-btn.active{background:var(--brand); border-color:var(--brand); color:#fff;}
+
+  /* Product card price tag */
+  .price-tag{position:absolute; top:10px; right:10px; background:var(--ink); color:#111; font-weight:800; font-size:.75rem; padding:4px 10px; transform:rotate(3deg); box-shadow:0 4px 10px rgba(0,0,0,.4);}
+
+  /* Range slider */
+  input[type=range]{-webkit-appearance:none; height:4px; background:var(--line); border-radius:0;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; background:var(--brand); border-radius:50%; cursor:pointer; box-shadow:0 0 10px var(--brand);}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{cursor:pointer;}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .4s ease;}
+  .faq-item.open .faq-a{max-height:200px;}
+  .faq-item.open .chev{transform:rotate(45deg);}
+  .chev{transition:.3s;}
+
+  /* Scroll progress */
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--brand); box-shadow:0 0 8px var(--brand); z-index:60; width:0%;}
+
+  /* Floating buttons */
+  .float-btn{position:fixed; right:22px; z-index:50; width:54px; height:54px; display:flex; align-items:center; justify-content:center; border-radius:50%; box-shadow:0 6px 20px rgba(0,0,0,.5); transition:.3s;}
+  #wa-float{bottom:88px; background:#25D366;}
+  #top-float{bottom:22px; background:var(--card); border:1px solid var(--line); opacity:0; pointer-events:none;}
+  #top-float.show{opacity:1; pointer-events:auto;}
+
+  /* Lightbox */
+  #lightbox{position:fixed; inset:0; background:rgba(250, 250, 250, 0.788); z-index:70; display:none; align-items:center; justify-content:center;}
+  #lightbox.open{display:flex;}
+
+  .divider{height:1px; background:linear-gradient(90deg,transparent,rgb(0, 0, 0),transparent);}
+  .num{font-family:'Anton'; -webkit-text-stroke:2px #000000;var(--line); color:transparent; font-size:4.5rem; line-height:1;}
+  /* Client Logo Slider */
+  .logo-track { display: flex; width: max-content; animation: logo-ticker 25s linear infinite; }
+  @keyframes logo-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .logo-wrap:hover .logo-track { animation-play-state: paused; }
+  
+  /* Efek estetik: logo otomatis hitam putih, dan berwarna saat di-hover */
+  .client-logo { filter: white(100%) brightness(0.8); opacity: 0.5; transition: 0.3s ease; }
+  .client-logo:hover { filter: white(50%) brightness(1); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="text-center"><h1 class="disp text-brand">COSTOM<span class="text-white">ID</span></h1><div class="load-bar"><span></span></div></div></div>
+<div class="grain"></div>
+<div id="progress"></div>
+
+<!-- TOP TICKER -->
+<div class="ticker-wrap bg-brand overflow-hidden py-1.5 relative z-40">
+  <div class="ticker-track mono text-xs font-bold tracking-widest text-black">
+    <span class="px-6">✂ FREE DESAIN SABLON</span><span class="px-6">★ MINIMAL ORDER 1 PCS</span><span class="px-6">🚚 KIRIM SELURUH INDONESIA</span><span class="px-6">🔥 GARANSI KUALITAS SABLON</span>
+    <span class="px-6">✂ FREE DESAIN SABLON</span><span class="px-6">★ MINIMAL ORDER 1 PCS</span><span class="px-6">🚚 KIRIM SELURUH INDONESIA</span><span class="px-6">🔥 GARANSI KUALITAS SABLON</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav" class="absolute w-full z-50 top-6">
+  <div class="container mx-auto px-6 flex justify-between items-center relative">
+    <a href="#home" class="disp text-xl tracking-tight">COSTOM<span class="text-brand">ID</span></a>
+    <div class="hidden md:flex space-x-8 font-medium text-sm">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#proses" class="nav-link">Proses</a>
+      <a href="#polosan" class="nav-link">Polosan</a>
+      <a href="#sablon" class="nav-link">Sablon</a>
+      <a href="#gallery" class="nav-link">Galeri</a>
+      <a href="#review" class="nav-link">Review</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="#sablon" class="hidden sm:inline-block bg-brand px-6 py-2.5 text-sm font-bold hover:bg-white hover:text-black transition-all">Pesan Sekarang</a>
+      <button id="burgerBtn" class="burger md:hidden"><span></span><span></span><span></span></button>
+    </div>
+    <div id="mobile-menu" class="md:hidden absolute top-[60px] left-0 w-full">
+      <div class="flex flex-col gap-5 py-6 px-6 text-sm">
+        <a href="#home" class="nav-link mlink">Home</a>
+        <a href="#proses" class="nav-link mlink">Proses</a>
+        <a href="#polosan" class="nav-link mlink">Polosan</a>
+        <a href="#sablon" class="nav-link mlink">Sablon</a>
+        <a href="#gallery" class="nav-link mlink">Galeri</a>
+        <a href="#review" class="nav-link mlink">Review</a>
+        <a href="#faq" class="nav-link mlink">FAQ</a>
+        <a href="#sablon" class="mlink bg-brand text-center mt-2 py-2.5 font-bold">Pesan Sekarang</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero-bg min-h-screen flex items-center pt-40 pb-20 px-6 relative">
+  <div class="container mx-auto grid lg:grid-cols-2 gap-14 items-center">
+    <div data-aos="fade-right">
+      <span class="eyebrow"><span class="dot"></span> Konveksi &amp; Sablon Custom</span>
+      <h1 class="disp text-6xl md:text-7xl leading-[0.95] mt-6">CETAK GAYA<br><span class="text-brand">ANDA SENDIRI.</span></h1>
+      <p class="text-muted mt-6 max-w-md text-[15px]" style="color:var(--muted)">Dari kaos satuan sampai jaket tim, kami produksi custom apparel dengan sablon presisi, bahan premium, dan pengerjaan cepat — mulai dari 1 pcs.</p>
+      <div class="flex flex-wrap gap-4 mt-9">
+        <a href="#sablon" class="bg-brand px-8 py-3.5 font-bold text-sm hover:bg-white hover:text-black transition-all">Mulai Custom →</a>
+        <a href="#polosan" class="border border-white/20 px-8 py-3.5 font-bold text-sm hover:border-brand transition-all">Media Yang Bisa Di sablon</a>
+      </div>
+      <div class="grid grid-cols-3 gap-6 mt-14 max-w-md">
+        <div><p class="disp text-3xl text-brand" data-count="12000">0</p><p class="text-xs mono uppercase tracking-widest" style="color:var(--muted)">Pcs Diproduksi</p></div>
+        <div><p class="disp text-3xl text-brand" data-count="850">0</p><p class="text-xs mono uppercase tracking-widest" style="color:var(--muted)">Klien Puas</p></div>
+        <div><p class="disp text-3xl text-brand" data-count="24">0</p><p class="text-xs mono uppercase tracking-widest" style="color:var(--muted)">Jam Pengerjaan</p></div>
+      </div>
+    </div>
+    <div class="relative flex items-center justify-center" data-aos="fade-left">
+      <div class="hero-card stitched p-8 w-full max-w-sm">
+        <span class="tag-label">Quality Tag</span>
+        <img src="sampuldepan.png" class="w-full h-80 object-cover" alt="custom apparel">
+        <div class="flex justify-between items-center mt-5 mono text-xs" style="color:var(--muted)">
+        </div>
+      </div>
+     
+    </div>
+  </div>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs mono animate-bounce" style="color:var(--muted)">scroll ↓</div>
+</section>
+<!-- CLIENT LOGOS MARQUEE -->
+<section class="py-12 bg-white border-b overflow-hidden logo-wrap" style="border-color:var(--line)">
+  <div class="container mx-auto px-6 mb-6 text-center" data-aos="fade-up">
+    <p class="text-xs mono uppercase tracking-widest" style="color:black">Dipercaya oleh Berbagai Perusahaan & Komunitas</p>
+  </div>
+  
+  <div class="flex overflow-hidden relative w-full">
+    <!-- Jalur Ticker Logo -->
+    <div class="logo-track flex items-center gap-16 py-2">
+      
+      <!-- KUMPULAN LOGO (SET 1) -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" alt="Adidas" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM" class="h-8 w-auto client-logo">
+
+      <!-- DUPLIKAT LOGO (SET 2) - WAJIB SAMA PERSIS DENGAN SET 1 AGAR LOOPING TIDAK PATAH -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" alt="Nike" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" alt="Adidas" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="h-8 w-auto client-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM" class="h-8 w-auto client-logo">
+      
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES (KOTAK HITAM, IKON HIJAU STABILO, TEKS PUTIH) -->
+<section class="py-24 px-6 border-t border-white/10">
+  <div class="container mx-auto grid md:grid-cols-4 gap-6">
+    
+    <!-- KOTAK 1 -->
+    <div class="bg-black border border-white/15 p-7 rounded-none transition-all duration-300 hover:border-[#ccff00] hover:-translate-y-1.5" data-aos="fade-up">
+      <div class="w-12 h-12 mb-5 flex items-center justify-center border border-[#ccff00]/30 bg-[#ccff00]/10">
+        <!-- Ikon Hijau Stabilo -->
+        <svg class="w-6 h-6 text-[#ccff00]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+      </div>
+      <h4 class="font-bold text-white text-lg mb-2">Kualitas Terjamin</h4>
+      <p class="text-sm text-gray-300 leading-relaxed">
+        Sablon tahan lama, tidak retak & tidak luntur meski dicuci berkali-kali.
+      </p>
+    </div>
+
+    <!-- KOTAK 2 -->
+    <div class="bg-black border border-white/15 p-7 rounded-none transition-all duration-300 hover:border-[#ccff00] hover:-translate-y-1.5" data-aos="fade-up" data-aos-delay="100">
+      <div class="w-12 h-12 mb-5 flex items-center justify-center border border-[#ccff00]/30 bg-[#ccff00]/10">
+        <!-- Ikon Hijau Stabilo -->
+        <svg class="w-6 h-6 text-[#ccff00]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      </div>
+      <h4 class="font-bold text-white text-lg mb-2">Proses Cepat</h4>
+      <p class="text-sm text-gray-300 leading-relaxed">
+        Estimasi pengerjaan 1-3 hari kerja tergantung jumlah dan jenis sablon.
+      </p>
+    </div>
+
+    <!-- KOTAK 3 -->
+    <div class="bg-black border border-white/15 p-7 rounded-none transition-all duration-300 hover:border-[#ccff00] hover:-translate-y-1.5" data-aos="fade-up" data-aos-delay="200">
+      <div class="w-12 h-12 mb-5 flex items-center justify-center border border-[#ccff00]/30 bg-[#ccff00]/10">
+        <!-- Ikon Hijau Stabilo -->
+        <svg class="w-6 h-6 text-[#ccff00]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h9a2 2 0 012 2v12a4 4 0 01-4 4H7zM9 7h6M9 11h6"/>
+        </svg>
+      </div>
+      <h4 class="font-bold text-white text-lg mb-2">Free Desain</h4>
+      <p class="text-sm text-gray-300 leading-relaxed">
+        Tim desain siap bantu wujudkan konsep custom-mu tanpa biaya tambahan.
+      </p>
+    </div>
+
+    <!-- KOTAK 4 -->
+    <div class="bg-black border border-white/15 p-7 rounded-none transition-all duration-300 hover:border-[#ccff00] hover:-translate-y-1.5" data-aos="fade-up" data-aos-delay="300">
+      <div class="w-12 h-12 mb-5 flex items-center justify-center border border-[#ccff00]/30 bg-[#ccff00]/10">
+        <!-- Ikon Hijau Stabilo -->
+        <svg class="w-6 h-6 text-[#ccff00]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0l-2 5H6l-2-5m16 0H4"/>
+        </svg>
+      </div>
+      <h4 class="font-bold text-white text-lg mb-2">Mulai 1 Pcs</h4>
+      <p class="text-sm text-gray-300 leading-relaxed">
+        Tetap bisa custom satuan tanpa minimal order yang memberatkan.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROSES (DARI IDE JADI KAOS) - STYLE MINIMALIS GRID -->
+<section id="proses" class="py-24 px-6 bg-black text-white border-y border-white/10">
+  <div class="container mx-auto">
+    <!-- Judul Utama Section -->
+    <div class="text-center mb-16" data-aos="fade-up">
+      <span class="eyebrow border-white/20 text-brand"><span class="dot"></span> Alur Kerja</span>
+      <h3 class="disp text-4xl md:text-5xl mt-5 tracking-wide uppercase">DARI IDE JADI KAOS</h3>
+    </div>
+
+    <!-- Grid 4 Langkah (Atau bisa jadi 2 baris x 2 kolom) -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+      
+      <!-- ITEM 1 -->
+      <div class="flex flex-col items-center" data-aos="fade-up">
+        <!-- Icon Chat/Konsultasi -->
+        <div class="w-16 h-16 mb-6 flex items-center justify-center text-brand">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-3 tracking-wide">01. Konsultasi & Desain</h4>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-xs">
+          Kirim referensi atau logo Anda. Tim desainer kami siap membuatkan mockup visual sablon secara gratis.
+        </p>
+      </div>
+
+      <!-- ITEM 2 -->
+      <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="100">
+        <!-- Icon Checklist/Approval -->
+        <div class="w-16 h-16 mb-6 flex items-center justify-center text-brand">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-3 tracking-wide">02. Approval & Bahan</h4>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-xs">
+          Pilih jenis kain (combed/polo/jaket) serta teknik sablon yang diinginkan, lalu konfirmasi desain final.
+        </p>
+      </div>
+
+      <!-- ITEM 3 -->
+      <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
+        <!-- Icon Produksi/Cetak -->
+        <div class="w-16 h-16 mb-6 flex items-center justify-center text-brand">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-3 tracking-wide">03. Produksi & Presisi</h4>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-xs">
+          Proses cutting, pencetakan sablon presisi tinggi, dan Quality Control (QC) ketat di setiap tahapan.
+        </p>
+      </div>
+
+      <!-- ITEM 4 -->
+      <div class="flex flex-col items-center" data-aos="fade-up" data-aos-delay="300">
+        <!-- Icon Pengiriman -->
+        <div class="w-16 h-16 mb-6 flex items-center justify-center text-brand">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+          </svg>
+        </div>
+        <h4 class="font-bold text-lg mb-3 tracking-wide">04. Packing & Kirim</h4>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-xs">
+          Produk dikemas dengan rapi dan siap dikirim langsung ke alamat Anda di seluruh Indonesia.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- POLOSAN -->
+<section id="polosan" class="py-24 px-6">
+  <div class="container mx-auto">
+    <div class="text-center mb-12" data-aos="fade-up">
+      <span class="eyebrow"><span class="dot"></span> Ready Stock</span>
+      <h3 class="disp text-4xl md:text-5xl mt-5">KOLEKSI POLOSAN</h3>
+      <p class="text-sm mt-3" style="color:var(--muted)">Bahan siap sablon, bisa dibeli satuan atau grosir.</p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-3 mb-12" id="catTabs">
+      <button data-cat="polo" class="cat-btn active px-6 py-2.5 text-sm font-semibold">Polo Shirt</button>
+      <button data-cat="tshirt" class="cat-btn px-6 py-2.5 text-sm font-semibold">T-Shirt</button>
+      <button data-cat="jacket" class="cat-btn px-6 py-2.5 text-sm font-semibold">Jacket</button>
+      <button data-cat="topi" class="cat-btn px-6 py-2.5 text-sm font-semibold">Topi</button>
+      <!-- Perbaikan: data-cat diubah menjadi huruf kecil "lanyard" -->
+      <button data-cat="lanyard" class="cat-btn px-6 py-2.5 text-sm font-semibold">Lanyard</button>
+    </div>
+<div id="product-list" class="flex flex-wrap justify-center gap-6"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-24 px-6 overflow-hidden">
+  <div class="container mx-auto">
+    <div class="text-center mb-14" data-aos="fade-up">
+      <span class="eyebrow"><span class="dot"></span> Hasil Produksi</span>
+      <h3 class="disp text-4xl md:text-5xl mt-5">GALERI KARYA</h3>
+    </div>
+    
+    <!-- Kontainer 2 Baris (Grid Flow Col + Rows 2) -->
+    <div class="grid grid-flow-col grid-rows-2 gap-4 overflow-x-auto scroll-smooth no-scrollbar py-4 snap-x snap-mandatory" id="galleryGrid">
+      
+      <!-- KOLOM 1 -->
+      <img data-full="images/galeri1.jpeg" src="images/galeri1.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri2.jpeg" src="images/galeri2.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      
+      <!-- KOLOM 2 -->
+      <img data-full="images/galeri3.jpeg" src="images/galeri3.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri4.jpeg" src="images/galeri4.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      
+      <!-- KOLOM 3 -->
+      <img data-full="images/galeri5.jpeg" src="images/galeri5.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri6.jpeg" src="images/galeri6.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+
+      <!-- KOLOM 4 -->
+      <img data-full="images/galeri7.jpeg" src="images/galeri7.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri8.jpeg" src="images/galeri8.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      
+      <!-- KOLOM 5 -->
+      <img data-full="images/galeri9.jpeg" src="images/galeri9.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri10.jpeg" src="images/galeri10.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      
+      <!-- KOLOM 2 -->
+      <img data-full="images/galeri11.jpeg" src="images/galeri11.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri12.jpeg" src="images/galeri12.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      
+      <!-- KOLOM 3 -->
+      <img data-full="images/galeri13.jpeg" src="images/galeri13.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+      <img data-full="images/galeri14.jpeg" src="images/galeri14.jpeg" class="w-60 h-60 md:w-72 md:h-72 object-cover cursor-pointer glass snap-center" data-aos="zoom-in">
+
+      <!-- Kalau mau nambah foto lagi, tinggal paste di bawah sini. Kelipatannya per 2 foto ya biar barisnya seimbang -->
+
+    </div>
+  </div>
+</section>
+
+<!-- REVIEW / GOOGLE REVIEWS WIDGET -->
+<section id="review" class="py-24 px-6 bg-[color:var(--bg-alt)] border-y" style="border-color:var(--line)">
+  <div class="container mx-auto max-w-5xl text-center" data-aos="fade-up">
+    <span class="eyebrow"><span class="dot"></span> Testimoni</span>
+    <h3 class="disp text-4xl md:text-5xl mt-5 mb-12">KATA MEREKA</h3>
+    
+    <!-- Elfsight Google Reviews | Untitled Google Reviews -->
+    <div class="elfsight-app-9444e74f-784d-4224-80bf-381cede771b0" data-elfsight-app-lazy></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="py-24 px-6">
+  <div class="container mx-auto max-w-3xl">
+    <div class="text-center mb-14" data-aos="fade-up">
+      <span class="eyebrow"><span class="dot"></span> Pertanyaan</span>
+      <h3 class="disp text-4xl md:text-5xl mt-5">FAQ</h3>
+    </div>
+    <div id="faqList">
+      <div class="faq-item py-5">
+        <div class="faq-q flex justify-between items-center"><h4 class="font-semibold">Berapa minimal order-nya?</h4><span class="chev text-brand text-xl">+</span></div>
+        <div class="faq-a"><p class="text-sm pt-3" style="color:var(--muted)">Minimal order kami mulai dari 1 pcs, cocok untuk kebutuhan satuan maupun grosir.</p></div>
+      </div>
+      <div class="faq-item py-5">
+        <div class="faq-q flex justify-between items-center"><h4 class="font-semibold">Berapa lama proses produksinya?</h4><span class="chev text-brand text-xl">+</span></div>
+        <div class="faq-a"><p class="text-sm pt-3" style="color:var(--muted)">Estimasi 1-3 hari kerja tergantung jumlah pesanan dan teknik sablon yang dipilih.</p></div>
+      </div>
+      <div class="faq-item py-5">
+        <div class="faq-q flex justify-between items-center"><h4 class="font-semibold">Apakah bisa kirim ke luar kota?</h4><span class="chev text-brand text-xl">+</span></div>
+        <div class="faq-a"><p class="text-sm pt-3" style="color:var(--muted)">Bisa, kami melayani pengiriman ke seluruh Indonesia menggunakan ekspedisi pilihan.</p></div>
+      </div>
+      <div class="faq-item py-5">
+        <div class="faq-q flex justify-between items-center"><h4 class="font-semibold">Apakah desain dibantu tim COSTOM ID?</h4><span class="chev text-brand text-xl">+</span></div>
+        <div class="faq-a"><p class="text-sm pt-3" style="color:var(--muted)">Ya, layanan desain sudah termasuk gratis untuk setiap pemesanan sablon custom.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="py-20 px-6">
+  <div class="container mx-auto glass stitched p-12 text-center" data-aos="zoom-in">
+    <span class="tag-label">Yuk Mulai</span>
+    <h3 class="disp text-3xl md:text-5xl mb-5">SIAP CUSTOM GAYA LO?</h3>
+    <p class="mb-8 max-w-lg mx-auto text-sm" style="color:var(--muted)">Konsultasi gratis, cukup kirim referensi desainmu ke tim kami via WhatsApp.</p>
+    <a href="https://wa.me/6289687912869" target="_blank" class="inline-block bg-brand px-9 py-4 font-bold text-sm hover:bg-white hover:text-black transition-all">Chat WhatsApp Sekarang →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-16 px-6 border-t" style="border-color:var(--line)">
+  <div class="container mx-auto grid md:grid-cols-4 gap-10">
+    <div>
+      <h4 class="disp text-2xl mb-3">COSTOM<span class="text-brand">ID</span></h4>
+      <p class="text-sm" style="color:var(--muted)">Custom apparel & sablon premium untuk personal, komunitas, hingga brand.</p>
+    </div>
+    <div>
+      <h5 class="font-bold mb-4 text-sm uppercase tracking-widest">Navigasi</h5>
+      <ul class="space-y-2 text-sm" style="color:var(--muted)">
+        <li><a href="#polosan" class="hover:text-brand">Polosan</a></li>
+        <li><a href="#sablon" class="hover:text-brand">Sablon</a></li>
+        <li><a href="#gallery" class="hover:text-brand">Galeri</a></li>
+        <li><a href="#faq" class="hover:text-brand">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold mb-4 text-sm uppercase tracking-widest">Kontak</h5>
+      <ul class="space-y-2 text-sm" style="color:var(--muted)">
+        <li>WhatsApp: 089687912869</li>
+        <li>Email: wediansyah12@gmail.com.id</li>
+        <li>Tangerang Selatan, Indonesia</li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold mb-4 text-sm uppercase tracking-widest">Newsletter</h5>
+      <form id="newsForm" class="flex">
+        <input type="email" required placeholder="email kamu" class="w-full bg-black border border-white/15 px-4 py-2.5 text-sm focus:border-brand outline-none">
+        <button class="bg-brand px-4 font-bold text-sm">→</button>
+      </form>
+      <p id="newsMsg" class="text-xs mt-2 text-ink"></p>
+    </div>
+  </div>
+  <div class="divider my-10"></div>
+  <p class="text-center text-xs mono" style="color:var(--muted)">© 2026 COSTOM ID. Semua hak cipta dilindungi.</p>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<a id="wa-float" href="https://wa.me/089687912869" target="_blank" class="float-btn">
+  <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.44-1.35a9.9 9.9 0 004.6 1.14h.01c5.46 0 9.91-4.45 9.91-9.9C21.96 6.45 17.51 2 12.04 2zm0 18.06a8.1 8.1 0 01-4.13-1.13l-.3-.18-3.06.76.82-2.99-.2-.31a8.1 8.1 0 01-1.24-4.3c0-4.48 3.65-8.13 8.13-8.13 4.48 0 8.13 3.65 8.13 8.13-.01 4.48-3.65 8.15-8.15 8.15z"/></svg>
+</a>
+<button id="top-float" class="float-btn text-brand font-bold">↑</button>
+
+<!-- LIGHTBOX -->
+<div id="lightbox"><img id="lightboxImg" class="max-w-[90%] max-h-[85%] object-contain" src=""><button id="closeLightbox" class="absolute top-6 right-8 text-white text-3xl">×</button></div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- Elfsight platform script ditambahkan di sini -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<script>
+AOS.init({ once:true, duration:700, easing:'ease-out-quart' });
+
+// Loader
+window.addEventListener('load', ()=> setTimeout(()=> document.getElementById('loader').classList.add('hide'), 500));
+
+// Scroll progress + navbar state + back to top
+const progress = document.getElementById('progress');
+const nav = document.getElementById('mainNav');
+const topFloat = document.getElementById('top-float');
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const pct = (h.scrollTop)/(h.scrollHeight - h.clientHeight) * 100;
+  progress.style.width = pct + '%';
+  nav.classList.toggle('nav-scrolled', window.scrollY > 60);
+  topFloat.classList.toggle('show', window.scrollY > 500);
+
+  // active link scrollspy
+  document.querySelectorAll('section[id]').forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    const link = document.querySelector(`.nav-link[href="#${sec.id}"]`);
+    if(link){ link.classList.toggle('active', rect.top <= 120 && rect.bottom >= 120); }
+  });
+});
+topFloat.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+// Burger menu
+const burgerBtn = document.getElementById('burgerBtn');
+const mobileMenu = document.getElementById('mobile-menu');
+burgerBtn.addEventListener('click', ()=>{
+  burgerBtn.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('.mlink').forEach(a=> a.addEventListener('click', ()=>{
+  burgerBtn.classList.remove('active'); mobileMenu.classList.remove('open');
+}));
+
+// Counter animation
+const counters = document.querySelectorAll('[data-count]');
+let counted = false;
+const heroObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !counted){
+      counted = true;
+      counters.forEach(c=>{
+        const target = +c.dataset.count;
+        let cur = 0; const step = Math.ceil(target/60);
+        const t = setInterval(()=>{ cur += step; if(cur>=target){cur=target; clearInterval(t);} c.textContent = cur.toLocaleString('id-ID'); }, 25);
+      });
+    }
+  });
+}, {threshold:.4});
+counters.forEach(c=> heroObserver.observe(c.closest('div')));
+
+// Product catalog
+const products = {
+  polo: [
+    {name:"Polo Cotton", img:"media/polo.png"},
+    {name:"Polo Pique", img:"media/polo.png"},
+    {name:"Polo PVC", img:"media/polo.png"}
+  ],
+  tshirt: [
+    {name:"Kaos Combed 30s", img:"media/kaos.png"},
+    {name:"Kaos Combed 24s", img:"media/kaos.png"},
+    {name:"Kaos New States Apparel", img:"media/kaos.png"},
+    {name:"Kaos Oversize", img:"media/kaos.png"}
+  ],
+  jacket: [
+    {name:"Jaket Coach", img:"media/coach.png"},
+    {name:"Jaket Varsity", img:"media/varsity.png"},
+    {name:"Jaket Hoodie Zipper", img:"media/zipper.png"},
+    {name:"Jaket Hoodie Jumper", img:"media/jumper.png"}
+  ],
+  topi: [
+    {name:"Topi Trucker Jaring", img:"media/truker.png"},
+    {name:"Topi Baseball Classic", img:"media/baseball.png"},
+    {name:"Topi Snapback Flat", img:"media/snapback.png"}
+  ],
+  lanyard: [
+    {name:"Lanyard ID Card Holder", img:"media/lanyard.png"},
+    {name:"Lanyard Event Custom", img:"media/lanyard.png"}
+  ]
+};
+const productList = document.getElementById('product-list');
+function renderCategory(cat){
+  productList.innerHTML = '';
+  products[cat].forEach((item,i)=>{
+    productList.innerHTML += `
+      <div class="glass relative overflow-hidden" data-aos="fade-up" data-aos-delay="${i*80}">
+        <img src="${item.img}" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h4 class="font-bold text-sm">${item.name}</h4>
+          <a href="https://wa.me/089687912869?text=Halo,%20saya%20mau%20order%20${encodeURIComponent(item.name)}" target="_blank" class="block bg-brand text-center mt-4 py-2 text-xs font-bold hover:bg-white hover:text-black transition-all">Order via WA</a>
+        </div>
+      </div>`;
+  });
+  AOS.refreshHard();
+}
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.cat-btn').forEach(b=> b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCategory(btn.dataset.cat);
+  });
+});
+renderCategory('polo');
+
+// Price calculator
+const qtyRange = document.getElementById('qtyRange');
+const qtyVal = document.getElementById('qtyVal');
+const teknikSelect = document.getElementById('teknikSelect');
+const produkSelect = document.getElementById('produkSelect');
+const totalPrice = document.getElementById('totalPrice');
+const orderWA = document.getElementById('orderWA');
+function calcPrice(){
+  const qty = +qtyRange.value;
+  qtyVal.textContent = qty;
+  const total = qty * (+teknikSelect.value + +produkSelect.value);
+  totalPrice.textContent = 'Rp' + total.toLocaleString('id-ID');
+  const msg = `Halo, saya mau order custom sablon:%0A- Jumlah: ${qty} pcs%0A- Teknik: ${teknikSelect.options[teknikSelect.selectedIndex].text}%0A- Produk: ${produkSelect.options[produkSelect.selectedIndex].text}%0A- Estimasi: Rp${total.toLocaleString('id-ID')}`;
+  orderWA.href = `https://wa.me/089687912869?text=${msg}`;
+}
+[qtyRange, teknikSelect, produkSelect].forEach(el=> el.addEventListener('input', calcPrice));
+calcPrice();
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.querySelector('.faq-q').addEventListener('click', ()=>{
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=> i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+
+// Lightbox gallery
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+document.querySelectorAll('#galleryGrid img').forEach(img=>{
+  img.addEventListener('click', ()=>{
+    lightboxImg.src = img.dataset.full;
+    lightbox.classList.add('open');
+  });
+});
+document.getElementById('closeLightbox').addEventListener('click', ()=> lightbox.classList.remove('open'));
+lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) lightbox.classList.remove('open'); });
+
+// Newsletter (front-end only demo)
+document.getElementById('newsForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  document.getElementById('newsMsg').textContent = 'Terima kasih! Kamu akan dapat info promo terbaru.';
+  e.target.reset();
+});
+</script>
+</body>
+</html>
