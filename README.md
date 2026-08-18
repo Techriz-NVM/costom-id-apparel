@@ -68,6 +68,7 @@ Situs web ini sepenuhnya berjalan di sisi klien (*client-side*), sehingga tidak 
 ## 📝 Atribusi Bisnis
 * **Hak Cipta Bisnis**: © 2026 COSTOM ID. Semua hak cipta dilindungi.
 * **Refactored & Maintained by**: [@Techriz-NVM](https://github.com)
+* https://techriz-nvm.github.io/costom-id-apparel/
 
 * <img width="959" height="478" alt="image" src="https://github.com/user-attachments/assets/1ad6b990-fdb2-467b-84a3-a387fa969955" />
 
