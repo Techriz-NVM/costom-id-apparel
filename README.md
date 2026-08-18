@@ -73,3 +73,19 @@ Situs web ini sepenuhnya berjalan di sisi klien (*client-side*), sehingga tidak 
 * <img width="959" height="478" alt="image" src="https://github.com/user-attachments/assets/1ad6b990-fdb2-467b-84a3-a387fa969955" />
 
 <img width="298" height="405" alt="image" src="https://github.com/user-attachments/assets/a26f60a5-bc9a-4e44-83a0-deb26f79c939" />
+
+<h3 align="center">📸 Galeri Tampilan Web COSTOM ID</h3>
+
+<table align="center">
+  <tr>
+    <td><img src="assets/foto1.png" width="250" alt="Satu"></td>
+    <td><img src="assets/foto2.png" width="250" alt="Dua"></td>
+    <td><img src="assets/foto3.png" width="250" alt="Tiga"></td>
+  </tr>
+  <tr>
+    <td><img src="assets/foto4.png" width="250" alt="Empat"></td>
+    <td><img src="assets/foto5.png" width="250" alt="Lima"></td>
+    <td><img src="assets/foto6.png" width="250" alt="Enam"></td>
+  </tr>
+  <!-- Ulangi baris <tr> dan <td> ini untuk foto ke-7 sampai ke-24 -->
+</table>
